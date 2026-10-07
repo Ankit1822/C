@@ -1,0 +1,113 @@
+PRACTICAL 2 — Creating a Testing Project and Testing an Application
+
+A. VISUAL STUDIO — EXAM POV
+
+Step 1: Create main project
+Create a new project → Class Library
+Project name: CalculatorApp
+Select available framework, e.g. .NET 8.0.
+
+Step 2: Create testing project
+Right-click Solution → Add → New Project
+Search xUnit
+Select xUnit Test Project
+Project name: CalculatorApp.Tests
+
+Structure:
+Solution
+├── CalculatorApp
+└── CalculatorApp.Tests
+
+Step 3: Add project reference
+Right-click CalculatorApp.Tests → Add → Project Reference
+Tick CalculatorApp → OK
+
+Step 4: Calculator.cs
+
+using code:
+
+namespace CalculatorApp;
+
+public class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}
+
+Step 5: UnitTest1.cs
+
+using CalculatorApp;
+
+namespace CalculatorApp.Tests;
+
+public class UnitTest1
+{
+    [Fact]
+    public void Add_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Add(10, 20);
+
+        Assert.Equal(30, result);
+    }
+
+    [Fact]
+    public void Subtract_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Subtract(20, 10);
+
+        Assert.Equal(10, result);
+    }
+}
+
+Step 6: Run
+Test → Test Explorer → Run All Tests
+
+Expected:
+Passed: 2
+Failed: 0
+Skipped: 0
+
+B. LINUX + VS CODE
+
+cd ~/Documents/C#
+mkdir Practical2
+cd Practical2
+
+dotnet new classlib -n CalculatorApp
+dotnet new xunit -n CalculatorApp.Tests
+
+cd CalculatorApp.Tests
+dotnet add reference ../CalculatorApp/CalculatorApp.csproj
+cd ..
+
+code .
+
+Edit CalculatorApp/Class1.cs using Calculator code above.
+Edit CalculatorApp.Tests/UnitTest1.cs using test code above.
+
+Run:
+dotnet test
+
+Expected:
+Passed: 2
+
+VIVA:
+Unit testing = testing a small individual unit of code independently.
+xUnit = testing framework for .NET.
+[Fact] = marks a method as a test.
+Assert.Equal() = checks expected and actual values.
+Test Explorer = Visual Studio window for running/viewing tests.
+Project reference = lets test project access application classes.
+Green check = test passed.
+Red X = test failed.

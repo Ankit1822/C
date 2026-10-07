@@ -1,0 +1,79 @@
+PRACTICAL 10 — RAZOR PAGES + HELPER TAGS
+
+Create ASP.NET Core Web App.
+Use Razor Pages template, NOT MVC.
+Project name: RazorApp
+Authentication: None
+
+Step 1: Pages/Index.cshtml
+
+@page
+@model IndexModel
+
+<h2>Student Form</h2>
+
+<form method="post">
+
+    <label asp-for="Name">Name:</label>
+    <input asp-for="Name" />
+
+    <br />
+    <br />
+
+    <label asp-for="Age">Age:</label>
+    <input asp-for="Age" />
+
+    <br />
+    <br />
+
+    <button type="submit">Submit</button>
+
+</form>
+
+@if (Model.Message != null)
+{
+    <h3>@Model.Message</h3>
+}
+
+Step 2: Pages/Index.cshtml.cs
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace RazorApp.Pages;
+
+public class IndexModel : PageModel
+{
+    [BindProperty]
+    public string Name { get; set; } = "";
+
+    [BindProperty]
+    public int Age { get; set; }
+
+    public string? Message { get; set; }
+
+    public void OnPost()
+    {
+        Message = "Hello " + Name + ", your age is " + Age;
+    }
+}
+
+Step 3: Run
+Ctrl + F5
+
+Enter:
+Name: Devesh
+Age: 20
+
+Click Submit.
+
+Output:
+Hello Devesh, your age is 20
+
+VIVA:
+Razor Pages is a page-based programming model in ASP.NET Core.
+@page makes the .cshtml file a Razor Page.
+Tag Helpers help generate HTML using server-side attributes.
+asp-for binds HTML controls to C# properties.
+[BindProperty] binds form data to a C# property.
+OnPost() executes when the form is submitted.

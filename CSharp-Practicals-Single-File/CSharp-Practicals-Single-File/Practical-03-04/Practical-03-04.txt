@@ -1,0 +1,152 @@
+PRACTICAL 3 + 4 — SHOPPING CART CRUD
+
+Use predefined products using List<Product>. No database.
+
+Step 1: Create ASP.NET Core Web App (Model-View-Controller)
+Project name: ShoppingCart
+Authentication: None
+HTTPS enabled.
+
+Step 2: Models/Product.cs
+
+namespace ShoppingCart.Models;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public int Price { get; set; }
+}
+
+Step 3: Controllers/ProductController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Models;
+
+namespace ShoppingCart.Controllers;
+
+public class ProductController : Controller
+{
+    static List<Product> products = new List<Product>
+    {
+        new Product { Id = 1, Name = "Mouse", Price = 500 },
+        new Product { Id = 2, Name = "Keyboard", Price = 1000 },
+        new Product { Id = 3, Name = "Headphones", Price = 1500 }
+    };
+
+    public IActionResult Index()
+    {
+        return View(products);
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var product = products.Find(p => p.Id == id);
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(Product product)
+    {
+        var oldProduct = products.Find(p => p.Id == product.Id);
+
+        if (oldProduct != null)
+        {
+            oldProduct.Name = product.Name;
+            oldProduct.Price = product.Price;
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Delete(int id)
+    {
+        var product = products.Find(p => p.Id == id);
+
+        if (product != null)
+        {
+            products.Remove(product);
+        }
+
+        return RedirectToAction("Index");
+    }
+}
+
+Step 4: Views/Product/Index.cshtml
+
+@model List<ShoppingCart.Models.Product>
+
+<h2>Shopping Cart</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Id</th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>₹@product.Price</td>
+            <td>
+                <a href="/Product/Edit/@product.Id">Edit</a>
+                |
+                <a href="/Product/Delete/@product.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+Step 5: Views/Product/Edit.cshtml
+
+@model ShoppingCart.Models.Product
+
+<h2>Update Item</h2>
+
+<form method="post">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    Item Name:
+    <input name="Name" value="@Model.Name" />
+
+    <br /><br />
+
+    Price:
+    <input name="Price" value="@Model.Price" />
+
+    <br /><br />
+
+    <button type="submit">Update</button>
+
+</form>
+
+Step 6: Run
+Ctrl + F5
+Open:
+https://localhost:xxxx/Product
+
+Expected:
+Mouse ₹500
+Keyboard ₹1000
+Headphones ₹1500
+
+CRUD:
+Create = initial products in List
+Read = Index()
+Update = Edit()
+Delete = Delete()
+
+Important lines:
+return View(products);
+products.Remove(product);
+
+VIVA:
+CRUD means Create, Read, Update, Delete.
+Model describes product data.
+Controller handles application logic.
+View displays the products.

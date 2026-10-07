@@ -1,0 +1,90 @@
+PRACTICAL 6 — URL ROUTING + DEPENDENCY INJECTION
+
+Project: RoutingDI
+Template: ASP.NET Core Web App (Model-View-Controller)
+Authentication: None
+
+Step 1: Program.cs
+
+using RoutingDI.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<StudentService>();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
+Important:
+AddScoped registers the service for Dependency Injection.
+The route pattern defines URL routing.
+
+Step 2: Services/StudentService.cs
+
+namespace RoutingDI.Services;
+
+public class StudentService
+{
+    public string GetStudent(int id)
+    {
+        return "Student ID: " + id;
+    }
+}
+
+Step 3: Controllers/StudentController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using RoutingDI.Services;
+
+namespace RoutingDI.Controllers;
+
+public class StudentController : Controller
+{
+    private readonly StudentService service;
+
+    public StudentController(StudentService service)
+    {
+        this.service = service;
+    }
+
+    public IActionResult Details(int id)
+    {
+        ViewBag.Student = service.GetStudent(id);
+        return View();
+    }
+}
+
+Step 4: Views/Student/Details.cshtml
+
+<h2>Student Details</h2>
+
+<p>@ViewBag.Student</p>
+
+Step 5: Run
+Ctrl + F5
+
+Open:
+/Student/Details/1
+
+Output:
+Student Details
+Student ID: 1
+
+VIVA:
+Routing maps a URL to a controller and action.
+Dependency Injection provides required objects automatically.
+URL /Student/Details/10 means:
+Controller = Student
+Action = Details
+ID = 10

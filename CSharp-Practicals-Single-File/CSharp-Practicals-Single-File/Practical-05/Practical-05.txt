@@ -1,0 +1,56 @@
+PRACTICAL 5 — IMPLEMENTING SECURITY TO AN APPLICATION
+
+Use ASP.NET Core Web App (Model-View-Controller).
+
+Authentication Type: Individual Accounts
+HTTPS enabled.
+
+Step 1: Create project
+Project name: SecurityApp
+
+Individual Accounts enables ASP.NET Core Identity.
+
+Step 2: Create Controllers/SecureController.cs
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace SecurityApp.Controllers;
+
+[Authorize]
+public class SecureController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+
+Step 3: Create Views/Secure/Index.cshtml
+
+<h2>Secure Page</h2>
+
+<p>Welcome! You are logged in.</p>
+
+<a href="/Identity/Account/Manage">Manage Account</a>
+
+Step 4: Run
+Ctrl + F5
+
+Register at:
+/Identity/Account/Register
+
+Then login.
+
+Test:
+/Secure
+
+Logged-in user sees the secure page.
+Non-logged-in user is redirected to login.
+
+VIVA:
+Authentication verifies user identity.
+Authorization determines what an authenticated user can access.
+[Authorize] restricts access to authenticated users.
+ASP.NET Core Identity provides registration, login, logout and account management.
+Individual Accounts enables Identity.

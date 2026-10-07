@@ -1,0 +1,79 @@
+PRACTICAL 1 — Creating Simple Application and Testing Application
+
+A. VISUAL STUDIO — COLLEGE PC
+
+Step 1: Open Visual Studio
+Start → Visual Studio → Create a new project
+
+Step 2: Select project
+Search: ASP.NET Core Web App (Model-View-Controller)
+Select → Next
+
+Step 3: Configure
+Project Name: Practical1
+Click Next.
+
+Step 4: Additional Information
+Select available .NET version.
+Authentication Type: None
+Configure for HTTPS: ✓
+Docker: No
+Click Create.
+
+Step 5: Open View
+Solution Explorer → Views → Home → Index.cshtml
+
+Replace with:
+
+@{
+    ViewData["Title"] = "Practical 1";
+}
+
+<h1>My First ASP.NET Core MVC Application</h1>
+
+<p>Welcome to my C# practical.</p>
+
+<p>This application is running successfully.</p>
+
+Save: Ctrl + S
+
+Step 6: Run
+Click green Run button OR Ctrl + F5.
+
+Step 7: Check browser
+Expected:
+My First ASP.NET Core MVC Application
+Welcome to my C# practical.
+This application is running successfully.
+
+B. LINUX — VS CODE
+
+cd ~/CSharpPracticals
+dotnet new mvc -n Practical1
+cd Practical1
+code .
+
+Open Views → Home → Index.cshtml and use the same code above.
+
+Run:
+dotnet run
+
+Open the displayed localhost URL.
+Stop with Ctrl + C.
+
+EXAM FLOW:
+Open Visual Studio
+↓
+Create ASP.NET Core Web App (MVC)
+↓
+Create Project
+↓
+Views → Home → Index.cshtml
+↓
+Write HTML/Razor code
+↓
+Ctrl + F5
+↓
+Browser
+↓
+Check Output

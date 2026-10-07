@@ -1,0 +1,81 @@
+PRACTICAL 7 — CREATING APPLICATION WITH CACHING
+
+Use Memory Cache.
+
+Step 1: Create MVC project
+Project name: CachingApp
+
+Step 2: Program.cs
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
+Important:
+builder.Services.AddMemoryCache();
+
+Step 3: Controllers/CacheController.cs
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace CachingApp.Controllers;
+
+public class CacheController : Controller
+{
+    private readonly IMemoryCache cache;
+
+    public CacheController(IMemoryCache cache)
+    {
+        this.cache = cache;
+    }
+
+    public IActionResult Index()
+    {
+        string message;
+
+        if (!cache.TryGetValue("message", out message))
+        {
+            message = "Data generated at " + DateTime.Now;
+
+            cache.Set("message", message, TimeSpan.FromMinutes(5));
+        }
+
+        ViewBag.Message = message;
+
+        return View();
+    }
+}
+
+Step 4: Views/Cache/Index.cshtml
+
+<h2>Caching Example</h2>
+
+<p>@ViewBag.Message</p>
+
+Step 5: Run
+Ctrl + F5
+Open:
+/Cache
+
+Refresh several times. The time remains the same for 5 minutes.
+
+VIVA:
+Caching stores frequently used data temporarily for faster access.
+IMemoryCache stores data in application memory.
+cache.Set() stores data.
+cache.TryGetValue() retrieves/checks data.
