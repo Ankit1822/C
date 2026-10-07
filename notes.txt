@@ -1,0 +1,1211 @@
+Practical 1 — Creating Simple Application and Testing Application
+
+
+A. Using Visual Studio — College PC
+
+
+Step 1: Open Visual Studio
+Start → Visual Studio
+Select:
+Create a new project
+
+Step 2: Select project
+Search:
+ASP.NET Core Web App (Model-View-Controller)
+Select it → Next
+
+Step 3: Configure project
+Project Name: Practical1
+Click Next.
+
+Step 4: Additional Information
+Select the available .NET version.
+Authentication Type: None
+Configure for HTTPS: ✓
+Docker: No
+Click Create.
+
+Step 5: Open the View
+In Solution Explorer:
+Views
+  ↓
+Home
+  ↓
+Index.cshtml
+Replace the contents with:
+@{
+    ViewData["Title"] = "Practical 1";
+}
+
+<h1>My First ASP.NET Core MVC Application</h1>
+
+<p>Welcome to my C# practical.</p>
+
+<p>This application is running successfully.</p>
+Save:
+Ctrl + S
+
+Step 6: Run
+Click the green Run ▶ button at the top.
+OR:
+Ctrl + F5
+
+Step 7: Check Output
+The browser opens automatically.
+Example:
+https://localhost:7000
+Expected output:
+My First ASP.NET Core MVC Application
+
+Welcome to my C# practical.
+
+This application is running successfully.
+Practical 1 completed.
+
+__________________________________________________________________________________________________________________________________________
+
+B. Using Linux — VS Code
+Step 1: Open Terminal
+cd ~/CSharpPracticals
+Step 2: Create MVC project
+dotnet new mvc -n Practical1
+Step 3: Enter project
+cd Practical1
+Step 4: Open in VS Code
+code .
+Step 5: Open View
+Views
+ → Home
+   → Index.cshtml
+Replace contents with:
+@{
+    ViewData["Title"] = "Practical 1";
+}
+
+<h1>My First ASP.NET Core MVC Application</h1>
+
+<p>Welcome to my C# practical.</p>
+
+<p>This application is running successfully.</p>
+Save:
+Ctrl + S
+Step 6: Run
+Open VS Code Terminal:
+dotnet run
+Terminal will show something like:
+Now listening on: http://localhost:5000
+Step 7: Open Browser
+Open the displayed localhost URL.
+Expected:
+My First ASP.NET Core MVC Application
+
+Welcome to my C# practical.
+
+This application is running successfully.
+Step 8: Stop
+Ctrl + C
+
+Exam flow to memorize
+Open Visual Studio
+        ↓
+Create ASP.NET Core Web App (MVC)
+        ↓
+Create Project
+        ↓
+Views → Home → Index.cshtml
+        ↓
+Write HTML/Razor code
+        ↓
+Ctrl + F5
+        ↓
+Browser
+        ↓
+Check Output
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 2 — Creating a Testing Project and Testing an Application
+We’ll do it from both POVs.
+
+A. VISUAL STUDIO — EXAM POV
+
+Step 1: Create the main project
+Open Visual Studio.
+Click Create a new project.
+Search Class Library.
+Select Class Library → Next.
+Project name:
+CalculatorApp
+Select the framework available in your college, e.g. .NET 8.0.
+Click Create.
+
+Step 2: Create the testing project
+In Solution Explorer:
+Right-click the Solution.
+Select:
+Add → New Project
+Search:
+xUnit
+Select xUnit Test Project.
+Project name:
+CalculatorApp.Tests
+Click Create.
+Your solution should look like:
+Solution
+│
+├── CalculatorApp
+│   └── Class1.cs
+│
+└── CalculatorApp.Tests
+    └── UnitTest1.cs
+
+Step 3: Add project reference
+The test project needs access to CalculatorApp.
+Right-click:
+CalculatorApp.Tests
+Select Add → Project Reference.
+Tick:
+CalculatorApp
+Click OK.
+Now the test project can use the Calculator class.
+
+Step 4: Create Calculator class
+Inside:
+CalculatorApp
+Right-click → Add → Class
+Name:
+Calculator.cs
+Replace the code with:
+namespace CalculatorApp;
+
+public class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}
+Save with Ctrl + S.
+
+Step 5: Write test cases
+Open:
+CalculatorApp.Tests
+    └── UnitTest1.cs
+Replace everything with:
+using CalculatorApp;
+
+namespace CalculatorApp.Tests;
+
+public class UnitTest1
+{
+    [Fact]
+    public void Add_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Add(10, 20);
+
+        Assert.Equal(30, result);
+    }
+
+    [Fact]
+    public void Subtract_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Subtract(20, 10);
+
+        Assert.Equal(10, result);
+    }
+}
+Save.
+
+Step 6: Run the tests
+Go to:
+Test → Test Explorer
+Then click:
+Run All Tests
+You should see:
+Passed: 2
+Failed: 0
+Skipped: 0
+Green checkmarks mean the tests passed.
+
+What is happening?
+Our application has:
+CalculatorApp
+     ↓
+Calculator.cs
+     ↓
+Add() / Subtract()
+The testing project checks whether those methods work correctly:
+CalculatorApp.Tests
+       ↓
+   UnitTest1.cs
+       ↓
+    [Fact]
+       ↓
+ Assert.Equal()
+
+B. LINUX + VS CODE — PRACTICE POV
+Step 1: Create folder
+Open Terminal:
+cd ~/Documents/C#
+mkdir Practical2
+cd Practical2
+Step 2: Create main project
+dotnet new classlib -n CalculatorApp
+Step 3: Create xUnit project
+dotnet new xunit -n CalculatorApp.Tests
+Step 4: Add reference
+cd CalculatorApp.Tests
+dotnet add reference ../CalculatorApp/CalculatorApp.csproj
+cd ..
+Step 5: Open VS Code
+code .
+
+Step 6: Edit Calculator.cs
+Open:
+CalculatorApp/Class1.cs
+You can rename it to Calculator.cs, or simply replace its contents:
+namespace CalculatorApp;
+
+public class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}
+
+Step 7: Edit UnitTest1.cs
+Open:
+CalculatorApp.Tests/UnitTest1.cs
+Paste:
+using CalculatorApp;
+
+namespace CalculatorApp.Tests;
+
+public class UnitTest1
+{
+    [Fact]
+    public void Add_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Add(10, 20);
+
+        Assert.Equal(30, result);
+    }
+
+    [Fact]
+    public void Subtract_TwoNumbers_ReturnsCorrectResult()
+    {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.Subtract(20, 10);
+
+        Assert.Equal(10, result);
+    }
+}
+
+Step 8: Run tests
+From the Practical2 folder:
+dotnet test
+Expected:
+Passed!  - Failed: 0, Passed: 2, Skipped: 0
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 3 + 4 — Shopping Cart
+We will use the simplest exam version:
+Predefined products using List<Product>
+Display products
+Delete products
+No database
+No Create page
+No Edit/Update
+No JSON
+No REST API
+Step 1 — Create the project
+Open Visual Studio.
+Click Create a new project
+Search:
+ASP.NET Core Web App (Model-View-Controller)
+Select it → Next
+Project name:
+ShoppingCart
+Choose your location.
+Click Next
+Select the available .NET version.
+Authentication: None
+Keep HTTPS enabled.
+Click Create.
+Visual Studio will generate the MVC project.
+
+Step 2 — Create the Model
+In Solution Explorer:
+Models
+Right-click → Add → Class
+Name:
+Product.cs
+Replace everything with:
+namespace ShoppingCart.Models;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public int Price { get; set; }
+}
+Remember
+The Model describes our product:
+Product
+ ├── Id
+ ├── Name
+ └── Price
+
+Step 3 — Create the Controller
+Right-click:
+Controllers
+→ Add → Controller
+Select:
+MVC Controller - Empty
+Name:
+ProductController
+Click Add.
+Replace the complete controller with:
+using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Models;
+
+namespace ShoppingCart.Controllers;
+
+public class ProductController : Controller
+{
+    static List<Product> products = new List<Product>
+    {
+        new Product { Id = 1, Name = "Mouse", Price = 500 },
+        new Product { Id = 2, Name = "Keyboard", Price = 1000 },
+        new Product { Id = 3, Name = "Headphones", Price = 1500 }
+    };
+
+    public IActionResult Index()
+    {
+        return View(products);
+    }
+
+    public IActionResult Delete(int id)
+    {
+        var product = products.Find(p => p.Id == id);
+
+        if (product != null)
+        {
+            products.Remove(product);
+        }
+
+        return RedirectToAction("Index");
+    }
+}
+What is happening?
+Our list already contains:
+Mouse       ₹500
+Keyboard    ₹1000
+Headphones  ₹1500
+So we don't need a Create page.
+
+Step 4 — Create the View
+Now go to:
+Views
+Right-click → Add → New Folder
+Name it:
+Product
+Inside the Product folder:
+Right-click → Add → View
+Choose Razor View - Empty.
+Name:
+Index.cshtml
+Replace everything with:
+@model List<ShoppingCart.Models.Product>
+
+<h2>Shopping Cart</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Id</th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>₹@product.Price</td>
+            <td>
+                <a href="/Product/Delete/@product.Id">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+Step 5 — Run the application
+Press:
+Ctrl + F5
+The browser opens.
+The default URL might be:
+https://localhost:xxxx/
+Change it to:
+https://localhost:xxxx/Product
+For example:
+https://localhost:7123/Product
+The important part is:
+/Product
+
+Step 6 — Expected output
+You should see:
+Shopping Cart
+
+-----------------------------------------
+Id    Item          Price       Action
+-----------------------------------------
+1     Mouse         ₹500        Delete
+2     Keyboard      ₹1000       Delete
+3     Headphones    ₹1500       Delete
+-----------------------------------------
+Click Delete beside Mouse.
+Mouse disappears.
+
+The entire practical in your head
+Remember only this:
+MODEL
+Product
+   ↓
+CONTROLLER
+List<Product>
+   ↓
+VIEW
+Display products
+   ↓
+DELETE
+Remove product
+The 3 important lines
+Store data:
+static List<Product> products = new List<Product>
+Display data:
+return View(products);
+Delete data:
+products.Remove(product);
+This is the version I'd use for the exam because it avoids unnecessary database, forms, sessions, and REST complexity.
+
+
+
+Yes. If the practical says CRUD, we should include Update too. We can still keep everything minimal.
+Final project structure
+ShoppingCart
+│
+├── Models
+│   └── Product.cs
+│
+├── Controllers
+│   └── ProductController.cs
+│
+└── Views
+    └── Product
+        ├── Index.cshtml
+        └── Edit.cshtml
+No Create page because the initial products are already in the list.
+
+1. Product.cs
+namespace ShoppingCart.Models;
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public int Price { get; set; }
+}
+
+2. ProductController.cs
+Replace the entire file with:
+using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Models;
+
+namespace ShoppingCart.Controllers;
+
+public class ProductController : Controller
+{
+    static List<Product> products = new List<Product>
+    {
+        new Product { Id = 1, Name = "Mouse", Price = 500 },
+        new Product { Id = 2, Name = "Keyboard", Price = 1000 },
+        new Product { Id = 3, Name = "Headphones", Price = 1500 }
+    };
+
+    // READ
+    public IActionResult Index()
+    {
+        return View(products);
+    }
+
+    // UPDATE - Show edit form
+    public IActionResult Edit(int id)
+    {
+        var product = products.Find(p => p.Id == id);
+        return View(product);
+    }
+
+    // UPDATE - Save changes
+    [HttpPost]
+    public IActionResult Edit(Product product)
+    {
+        var oldProduct = products.Find(p => p.Id == product.Id);
+
+        if (oldProduct != null)
+        {
+            oldProduct.Name = product.Name;
+            oldProduct.Price = product.Price;
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    // DELETE
+    public IActionResult Delete(int id)
+    {
+        var product = products.Find(p => p.Id == id);
+
+        if (product != null)
+        {
+            products.Remove(product);
+        }
+
+        return RedirectToAction("Index");
+    }
+}
+Now we have:
+CRUD -> Code
+Create -> Initial products in List
+Read -> Index()
+Update -> Edit()
+Delete -> Delete()
+
+Technically, this is enough to demonstrate all four operations.
+
+3. Index.cshtml
+@model List<ShoppingCart.Models.Product>
+
+<h2>Shopping Cart</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Id</th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td>₹@product.Price</td>
+
+            <td>
+                <a href="/Product/Edit/@product.Id">Edit</a>
+                |
+                <a href="/Product/Delete/@product.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+Now each product has:
+Edit | Delete
+
+4. Edit.cshtml
+Create:
+Views
+ └── Product
+      ├── Index.cshtml
+      └── Edit.cshtml
+Put this in Edit.cshtml:
+@model ShoppingCart.Models.Product
+
+<h2>Update Item</h2>
+
+<form method="post">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    Item Name:
+    <input name="Name" value="@Model.Name" />
+
+    <br />
+    <br />
+
+    Price:
+    <input name="Price" value="@Model.Price" />
+
+    <br />
+    <br />
+
+    <button type="submit">Update</button>
+
+</form>
+
+How Update works
+Suppose we click:
+Edit
+for Mouse.
+It opens:
+Update Item
+
+Item Name: Mouse
+Price: 500
+
+[Update]
+Change:
+Mouse → Gaming Mouse
+500 → 800
+Click Update.
+The controller receives:
+Product product
+Then finds the old product:
+var oldProduct = products.Find(p => p.Id == product.Id);
+And changes its values:
+oldProduct.Name = product.Name;
+oldProduct.Price = product.Price;
+Then:
+return RedirectToAction("Index");
+takes us back to the Shopping Cart
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 5 — Implementing Security to an Application
+
+Step 1 — Create the project
+In Visual Studio:
+Create a new project
+Select ASP.NET Core Web App (Model-View-Controller)
+Name:
+SecurityApp
+Click Next
+Select available .NET version.
+For Authentication type, select:
+Individual Accounts
+Keep Configure for HTTPS enabled.
+Click Create.
+The important part is Individual Accounts. This enables ASP.NET Core Identity.
+
+Step 2 — Understand what Visual Studio creates
+You will get things related to:
+Identity
+Login
+Register
+Logout
+Users
+Passwords
+Authentication
+You do not need to manually create the login system.
+ASP.NET Core Identity handles it.
+
+Step 3 — Create a protected Controller
+Go to:
+Controllers
+Right-click → Add → Controller → MVC Controller - Empty
+Name:
+SecureController
+Replace the code with:
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace SecurityApp.Controllers;
+
+[Authorize]
+public class SecureController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+Important line
+[Authorize]
+This means:
+Only logged-in users can access this controller.
+
+Step 4 — Create the View
+Create:
+Views
+ └── Secure
+      └── Index.cshtml
+Code:
+<h2>Secure Page</h2>
+
+<p>Welcome! You are logged in.</p>
+
+<a href="/Identity/Account/Manage">Manage Account</a>
+
+Step 5 — Run the application
+Press:
+Ctrl + F5
+Try:
+/Identity/Account/Register
+Create a user account.
+For example:
+Email: test@gmail.com
+Password: Test@12345
+Then login.
+
+Step 6 — Test Security
+Open:
+/Secure
+If logged in:
+You get:
+Secure Page
+
+Welcome! You are logged in.
+If NOT logged in:
+ASP.NET Core redirects you to the login page.
+That's your security demonstration.
+
+What you need to remember for the exam
+The most important code is:
+using Microsoft.AspNetCore.Authorization;
+
+[Authorize]
+public class SecureController : Controller
+{
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 6 — URL Routing + Dependency Injection
+
+
+Step 1 — Create Project
+Visual Studio → Create a new project
+Select:
+ASP.NET Core Web App (Model-View-Controller)
+Project name:
+RoutingDI
+Authentication: None
+Create.
+
+Step 2 — Program.cs
+Replace with:
+using RoutingDI.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<StudentService>();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+Important lines
+builder.Services.AddScoped<StudentService>();
+Registers our service for Dependency Injection.
+pattern: "{controller=Home}/{action=Index}/{id?}"
+Defines URL Routing.
+
+Step 3 — Create Service
+Create folder:
+Services
+Inside it create:
+StudentService.cs
+namespace RoutingDI.Services;
+
+public class StudentService
+{
+    public string GetStudent(int id)
+    {
+        return "Student ID: " + id;
+    }
+}
+
+Step 4 — Create Controller
+Create:
+Controllers/StudentController.cs
+using Microsoft.AspNetCore.Mvc;
+using RoutingDI.Services;
+
+namespace RoutingDI.Controllers;
+
+public class StudentController : Controller
+{
+    private readonly StudentService service;
+
+    public StudentController(StudentService service)
+    {
+        this.service = service;
+    }
+
+    public IActionResult Details(int id)
+    {
+        ViewBag.Student = service.GetStudent(id);
+
+        return View();
+    }
+}
+DI happens here:
+public StudentController(StudentService service)
+ASP.NET Core automatically provides StudentService.
+
+Step 5 — Create View
+Create:
+Views
+└── Student
+    └── Details.cshtml
+<h2>Student Details</h2>
+
+<p>@ViewBag.Student</p>
+
+Step 6 — Run
+Press:
+Ctrl + F5
+Open:
+/Student/Details/1
+Output:
+Student Details
+
+Student ID: 1
+Try:
+/Student/Details/10
+Output:
+Student Details
+
+Student ID: 10
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 10 — Razor Pages + Helper Tags
+
+1. Create project
+Visual Studio → ASP.NET Core Web App
+Project name:
+RazorApp
+This template already enables Razor Pages.
+
+2. Pages/Index.cshtml
+Replace the existing code with:
+@page
+@model IndexModel
+
+<h2>Student Form</h2>
+
+<form method="post">
+
+    <label asp-for="Name">Name:</label>
+    <input asp-for="Name" />
+
+    <button type="submit">Submit</button>
+
+</form>
+
+<p>@Model.Message</p>
+Helper/Tag Helper
+This:
+<input asp-for="Name" />
+is the important Tag Helper.
+It connects the HTML input to the C# Name property.
+
+3. Pages/Index.cshtml.cs
+Replace with:
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace RazorApp.Pages;
+
+public class IndexModel : PageModel
+{
+    [BindProperty]
+    public string Name { get; set; } = "";
+
+    public string Message { get; set; } = "";
+
+    public void OnPost()
+    {
+        Message = "Hello " + Name;
+    }
+}
+Important parts
+[BindProperty]
+public string Name { get; set; } = "";
+Gets the value entered in the form.
+public void OnPost()
+Runs when Submit is clicked.
+
+4. Run
+Press Ctrl + F5.
+Enter:
+Name: Devesh
+Click Submit.
+Output:
+Hello Devesh
+
+What you need to remember
+Razor Page:
+@page
+Tag Helper:
+<input asp-for="Name" />
+Form submission:
+OnPost()
+Binding:
+[BindProperty]
+
+
+__________________________________________________________________________________________________________________________________________
+
+
+Practical 7 — Creating Application with Caching
+
+Step 1 — Create MVC project
+Create:
+CachingApp
+Select ASP.NET Core Web App (Model-View-Controller).
+
+
+Step 2 — Program.cs
+Use:
+using Microsoft.Extensions.Caching.Memory;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddMemoryCache();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+The important line is:
+builder.Services.AddMemoryCache();
+This enables memory caching.
+
+Step 3 — Create CacheController.cs
+Inside Controllers, create:
+CacheController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace CachingApp.Controllers;
+
+public class CacheController : Controller
+{
+    private readonly IMemoryCache cache;
+
+    public CacheController(IMemoryCache cache)
+    {
+        this.cache = cache;
+    }
+
+    public IActionResult Index()
+    {
+        cache.Set("message", "Hello from Cache");
+
+        ViewBag.Message = cache.Get<string>("message");
+
+        return View();
+    }
+}
+What happens?
+First visit:
+Data generated at 1:15:20 AM
+Refresh the page.
+The same time is displayed because the value is coming from the cache.
+The cache expires after:
+TimeSpan.FromMinutes(5)
+
+Step 4 — Create View
+Create:
+Views
+└── Cache
+    └── Index.cshtml
+<h2>Caching Example</h2>
+
+<p>@ViewBag.Message</p>
+
+Step 5 — Run
+Press:
+Ctrl + F5
+Open:
+/Cache
+Example:
+Caching Example
+
+Data generated at 1:15:20 AM
+Refresh several times. The time remains the same for 5 minutes.
+
+
+__________________________________________________________________________________________________________________________________________
+
+Practical 8 — Creating RESTful Services
+
+Step 1 — Create Project
+Visual Studio → Create a new project
+Select:
+ASP.NET Core Web API
+Project name:
+StudentAPI
+Authentication: None
+Create the project.
+
+Step 2 — Create Student.cs
+Create folder:
+Models
+Inside it create Student.cs:
+namespace StudentAPI.Models;
+
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+}
+
+Step 3 — Create StudentController.cs
+Inside Controllers, create:
+StudentController.cs
+Replace everything with:
+using Microsoft.AspNetCore.Mvc;
+using StudentAPI.Models;
+
+namespace StudentAPI.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class StudentController : ControllerBase
+{
+    static List<Student> students = new List<Student>
+    {
+        new Student { Id = 1, Name = "Devesh" },
+        new Student { Id = 2, Name = "Rahul" }
+    };
+
+    // GET
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok(students);
+    }
+
+    // POST
+    [HttpPost]
+    public IActionResult Add(Student student)
+    {
+        students.Add(student);
+        return Ok(student);
+    }
+
+    // PUT
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, Student student)
+    {
+        var oldStudent = students.Find(s => s.Id == id);
+
+        if (oldStudent == null)
+            return NotFound();
+
+        oldStudent.Name = student.Name;
+
+        return Ok(oldStudent);
+    }
+
+    // DELETE
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        var student = students.Find(s => s.Id == id);
+
+        if (student == null)
+            return NotFound();
+
+        students.Remove(student);
+
+        return Ok(student);
+    }
+}
+
+Step 4 — Run
+Press:
+Ctrl + F5
+You can test the API using Swagger if Visual Studio opens it.
+The main URL is:
+/api/Student
+GET
+GET /api/Student
+Returns:
+[
+  {
+    "id": 1,
+    "name": "Devesh"
+  },
+  {
+    "id": 2,
+    "name": "Rahul"
+  }
+]
+POST
+POST /api/Student
+Send:
+{
+  "id": 3,
+  "name": "Amit"
+}
+PUT
+PUT /api/Student/1
+Send:
+{
+  "id": 1,
+  "name": "Devesh Updated"
+}
+DELETE
+DELETE /api/Student/1
+
+Important lines
+[ApiController]
+[Route("api/[controller]")]
+These make the controller a REST API controller.
+[HttpGet]
+[HttpPost]
+[HttpPut("{id}")]
+[HttpDelete("{id}")]
+These define the HTTP operations.
